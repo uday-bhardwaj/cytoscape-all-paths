@@ -137,7 +137,7 @@ module.exports = function () {
     }
   }
 
-  function getOutgoers(node) {
+  function getOutgoers_bkp(node) {
     var outgoers = node.outgoers();
     var nextEles = []; // [[node, edge], ...]
 
@@ -154,6 +154,27 @@ module.exports = function () {
         nextEles.push(eles);
       }
     });
+    return nextEles;
+  }
+
+  function getOutgoers(node) {
+    var outgoers = node.outgoers();
+    var nextEles = []; // [[node, edge], ...]
+
+    var eles = []; // [node, edge]
+    
+      outgoers.forEach(function (oEle, idx) {
+        if (oEle.isEdge()) {
+          eles = [];
+          let targetObject = cy.$id(oEle.data().target);
+          
+          eles.push(oEle);
+          eles.push(targetObject);
+          nextEles.push(eles);
+      }
+      
+    });  
+    
     return nextEles;
   }
 
